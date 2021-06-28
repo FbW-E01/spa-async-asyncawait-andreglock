@@ -3,7 +3,7 @@ import "babel-polyfill"
 
 const modal = document.getElementById("myModal");
 
-function waitSeconds() { 
+function waitSeconds() {
     return new Promise((resolve) => {
         window.setTimeout(() => {
             resolve(modal)
@@ -12,7 +12,7 @@ function waitSeconds() {
 };
 
 async function popModal() {
-    let result = await waitSeconds();
+    const result = await waitSeconds();
     console.log("User has been on the page for 60 seconds");
     result.style.display = "block";
 }
@@ -45,7 +45,24 @@ modal.addEventListener("click", (e) => {
 })
 
 const continueButton = document.getElementById("continue");
-continueButton.addEventListener("animationend", () => {
+// Non promise solution
+/* continueButton.addEventListener("animationend", () => {
     continueButton.style.backgroundColor = "orange";
     alert("Continue to subscribe");
-});
+}); */
+
+function alertContinue() {
+    return new Promise((resolve) => {
+        resolve(continueButton);
+    });
+}
+
+async function animationEnd () {
+    const button = await alertContinue();
+    button.addEventListener("animationend", () => {
+        button.style.backgroundColor = "orange";
+        alert("Continue to subscribe");
+    });
+}
+
+animationEnd();

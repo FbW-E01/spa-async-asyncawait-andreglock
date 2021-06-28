@@ -3,25 +3,37 @@ import "babel-polyfill"
 
 const modal = document.getElementById("myModal");
 
-/* let promiseOfModal = new Promise((resolve) => {
-    window.setTimeout(() => {
-        resolve(modal)
-    }, (1000 * 1));
-});
+function waitSeconds() { 
+    return new Promise((resolve) => {
+        window.setTimeout(() => {
+            resolve(modal)
+        }, (1000 * 60));
+    })
+};
 
-promiseOfModal.then((val) => {
+async function popModal() {
+    let result = await waitSeconds();
     console.log("User has been on the page for 60 seconds");
-    val.style.display = "block";
-}) */
-
-async function popModal(modal) {
-    const waitSeconds = await setTimeout(async () => {
-        const message = await console.log("User has been on the page for 60 seconds");
-        modal.style.display = "block";
-    }, 60 * 1000);
+    result.style.display = "block";
 }
 
-popModal(modal);
+popModal();
+
+
+// Wrong solution
+/* async function popModal(modal) {
+    try {
+        const waitSeconds = await setTimeout(async () => {
+            const message = await console.log("User has been on the page for 60 seconds");
+            modal.style.display = "block";
+        }, 60 * 1000);
+    }
+    catch {
+        console.log("error");
+    }
+}
+
+popModal(modal); */
 
 modal.addEventListener("click", (e) => {
     switch(e.target.className) {
